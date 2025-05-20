@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar - MoodCurhat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="../assets/icon.png" type="image/x-icon">
+    <!-- SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#00B37E',
+                        secondary: '#F5F5F5',
+                        accent1: '#D6FFFE',
+                        accent2: '#FFFFFF',
+                        dark: '#1E293B',
+                        light: '#F8FAFC',
+                        text: '#334155',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F8FAFC;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #00B37E 0%, #D6FFFE 100%);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #00B37E 0%, #00A3B3 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .wave {
+            animation: wave 8s linear infinite;
+        }
+
+        .wave:nth-child(2) {
+            animation-delay: -4s;
+            opacity: 0.5;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-float-delay {
+            animation: float 6s ease-in-out 3s infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            50% {
+                transform: translateY(-20px) translateX(10px);
+            }
+        }
+
+        /* SweetAlert Customization */
+        .swal2-popup {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .swal2-title {
+            font-weight: 600;
+        }
+        
+        .swal2-confirm {
+            background-color: #00B37E !important;
+        }
+        
+        .swal2-confirm:focus {
+            box-shadow: 0 0 0 3px rgba(0, 179, 126, 0.5) !important;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-[#F0FDF4] to-[#D6FFFE]"></div>
+        <div class="absolute bottom-0 left-0 right-0 overflow-hidden h-1/2">
+            <svg class="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#00B37E" fill-opacity="0.1"
+                    d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+                </path>
+            </svg>
+            <svg class="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#00B37E" fill-opacity="0.2"
+                    d="M0,192L48,181.3C96,171,192,149,288,154.7C384,160,480,192,576,192C672,192,768,160,864,138.7C960,117,1056,107,1152,117.3C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+                </path>
+            </svg>
+        </div>
+    </div>
+    <div class="min-h-screen flex flex-col items-center justify-center py-5">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-2">
+                <h1 class="text-4xl md:text-5xl font-bold text-primary mb-2">
+                    <span style="font-family: 'Dissolve', sans-serif;">mood</span><span
+                        style="font-family: 'Poppins', sans-serif; font-weight: 600;">curhat</span>
+                </h1>
+                <h2 class="text-xl text-gray-600">Buat akun baru</h2>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-8">
+                <form id="registerForm" class="space-y-4">
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                        <input type="text" id="fullName" name="fullName" required
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition"
+                            placeholder="Nama lengkap Anda">
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="email" name="email" required
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition"
+                            placeholder="email@contoh.com">
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <input type="password" id="password" name="password" required minlength="8"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition"
+                            placeholder="••••••••">
+                        <p class="mt-1 text-xs text-gray-500">Minimal 8 karakter</p>
+                    </div>
+
+                    <div>
+                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi
+                            Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition"
+                            placeholder="••••••••">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">Jenis
+                                Kelamin</label>
+                            <select id="gender" name="gender" required
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition">
+                                <option value="">Pilih</option>
+                                <option value="male">Laki-laki</option>
+                                <option value="female">Perempuan</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Usia</label>
+                            <input type="number" id="age" name="age" min="13" max="100" required
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition"
+                                placeholder="25">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input id="terms" name="terms" type="checkbox" required
+                            class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="terms" class="ml-2 block text-sm text-gray-700"> Saya setuju dengan <a href="#" class="text-primary hover:text-primary-dark">Syarat & Ketentuan</a>
+                        </label>
+                    </div>
+
+                    <div>
+                        <button type="submit"
+                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition">
+                            Daftar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="mt-6 text-center text-sm">
+                <p class="text-gray-600">Sudah punya akun?
+                    <a href="login.html" class="font-medium text-primary hover:text-primary-dark">Masuk disini</a>
+                </p>
+            </div>
+
+            <div class="mt-8 text-center">
+                <a href="../index.html" class="text-gray-500 hover:text-gray-700 text-sm">
+                    <i class="fas fa-arrow-left mr-1"></i> Kembali ke beranda
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+        import { db, ref, set, app } from "../firebase.js";
+
+        const auth = getAuth(app);
+        const registerForm = document.getElementById('registerForm');
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Get form values
+            const fullName = registerForm['fullName'].value.trim();
+            const email = registerForm['email'].value.trim();
+            const password = registerForm['password'].value;
+            const confirmPassword = registerForm['confirmPassword'].value;
+            const gender = registerForm['gender'].value;
+            const age = registerForm['age'].value;
+            const terms = registerForm['terms'].checked;
+
+            // Validate form
+            if (!terms) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Anda harus menyetujui syarat dan ketentuan',
+                    confirmButtonColor: '#00B37E',
+                });
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Password dan konfirmasi password tidak sama',
+                    confirmButtonColor: '#00B37E',
+                });
+                return;
+            }
+
+            if (password.length < 8) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Password harus minimal 8 karakter',
+                    confirmButtonColor: '#00B37E',
+                });
+                return;
+            }
+
+            if (!gender) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Silakan pilih jenis kelamin',
+                    confirmButtonColor: '#00B37E',
+                });
+                return;
+            }
+
+            if (age < 13 || age > 100) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Usia harus antara 13-100 tahun',
+                    confirmButtonColor: '#00B37E',
+                });
+                return;
+            }
+
+            try {
+                // Show loading
+                Swal.fire({
+                    title: 'Mendaftarkan akun...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Create user
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                const userData = {
+                    fullName: fullName,
+                    email: email,
+                    gender: gender,
+                    age: age,
+                    createdAt: new Date().toISOString()
+                };
+
+                await set(ref(db, 'users/' + user.uid), userData);
+
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Pendaftaran Berhasil!',
+                    text: 'Akun Anda berhasil dibuat. Anda akan diarahkan ke halaman chat.',
+                    confirmButtonColor: '#00B37E',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+
+                window.location.href = '../chat.html';
+            } catch (error) {
+                Swal.close();
+                
+                let errorMessage = 'Terjadi kesalahan saat mendaftar';
+                
+                switch(error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = 'Email sudah terdaftar';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = 'Password terlalu lemah (minimal 8 karakter)';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Format email tidak valid';
+                        break;
+                    case 'auth/operation-not-allowed':
+                        errorMessage = 'Operasi tidak diizinkan';
+                        break;
+                    default:
+                        errorMessage = error.message;
+                }
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Mendaftar',
+                    text: errorMessage,
+                    confirmButtonColor: '#00B37E',
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

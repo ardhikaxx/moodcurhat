@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodCurhat - AI Mental Health Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="./assets/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/dissolve" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#00B37E',
+                        secondary: '#F5F5F5',
+                        accent1: '#D6FFFE',
+                        accent2: '#FFFFFF',
+                        dark: '#1E293B',
+                        light: '#F8FAFC',
+                        text: '#334155',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 10px 25px -5px rgba(0, 179, 126, 0.1)',
+                        'card-hover': '0 20px 25px -5px rgba(0, 179, 126, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            color: #334155;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #00B37E 0%, #D6FFFE 100%);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #00B37E 0%, #00A3B3 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: #00B37E;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link.active::after {
+            width: 70%;
+        }
+
+        .nav-link.active {
+            color: #00B37E;
+            font-weight: 600;
+        }
+
+        .mobile-nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+            padding-left: 1rem;
+        }
+
+        .mobile-nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 1rem;
+            width: 0;
+            height: 2px;
+            background-color: #00B37E;
+            transition: width 0.3s ease;
+        }
+
+        .mobile-nav-link.active::after {
+            width: 24px;
+        }
+
+        .mobile-nav-link.active {
+            color: #00B37E;
+            font-weight: 600;
+            background-color: rgba(0, 179, 126, 0.05);
+        }
+
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .testimonial-card {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .blob {
+            position: absolute;
+            z-index: -1;
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.2;
+        }
+
+        .hero-image {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .wave-shape {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .wave-shape svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 100px;
+        }
+
+        .wave-shape .shape-fill {
+            fill: #FFFFFF;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <nav class="fixed w-full bg-white shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <a href="./index.html" class="text-2xl font-bold">
+                        <h1 class="text-4xl md:text-5xl font-bold text-primary">
+                        <span style="font-family: 'Dissolve', sans-serif;">mood</span><span
+                            style="font-family: 'Poppins', sans-serif; font-weight: 600;">curhat</span>
+                    </h1>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home"
+                        class="nav-link text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="#about"
+                        class="nav-link text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Tentang</a>
+                    <a href="#features"
+                        class="nav-link text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Fitur</a>
+                    <a href="#testimonial"
+                        class="nav-link text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Testimoni</a>
+                    <a href="./auth/login.html"
+                        class="bg-primary text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-opacity-90 transition shadow-md hover:shadow-lg">Login</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-900 hover:text-primary focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home"
+                    class="mobile-nav-link block px-4 py-3 text-base font-medium text-gray-900 hover:text-primary hover:bg-gray-100 rounded-md">Home</a>
+                <a href="#about"
+                    class="mobile-nav-link block px-4 py-3 text-base font-medium text-gray-900 hover:text-primary hover:bg-gray-100 rounded-md">Tentang</a>
+                <a href="#features"
+                    class="mobile-nav-link block px-4 py-3 text-base font-medium text-gray-900 hover:text-primary hover:bg-gray-100 rounded-md">Fitur</a>
+                <a href="#testimonial"
+                    class="mobile-nav-link block px-4 py-3 text-base font-medium text-gray-900 hover:text-primary hover:bg-gray-100 rounded-md">Testimoni</a>
+                <a href="./auth/login.html"
+                    class="block w-full text-center bg-primary text-white px-6 py-3 rounded-full text-base font-medium hover:bg-opacity-90 transition mt-2 shadow-md">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="pt-24 pb-16 md:pt-32 md:pb-24 relative overflow-hidden">
+        <div class="absolute inset-0 gradient-bg z-0"></div>
+        <div class="blob bg-accent1 w-80 h-80 top-1/4 -left-40"></div>
+        <div class="blob bg-primary w-96 h-96 bottom-1/4 -right-40"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-10">
+                <div class="md:w-1/2 text-center md:text-left" data-aos="fade-right">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 text-white">
+                        <span style="font-family: 'Dissolve', sans-serif;">mood</span><span
+                            style="font-family: 'Poppins', sans-serif; font-weight: 600;">curhat</span>
+                    </h1>
+                    <p class="text-xl text-white opacity-90 mb-8">
+                        MoodCurhat adalah teman digital Anda untuk kesehatan mental yang lebih baik. Curhatkan perasaan
+                        Anda dan dapatkan dukungan kapan saja.
+                    </p>
+                    <div
+                        class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start">
+                        <a href="./auth/login.html"
+                            class="bg-white text-primary px-8 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            Mulai Curhat Sekarang
+                        </a>
+                        <a href="#features"
+                            class="border-2 border-white text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-white hover:bg-opacity-10 transition">
+                            <i class="fas fa-info-circle mr-2"></i> Lihat Fitur
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 mt-10 md:mt-0" data-aos="fade-left">
+                    <img src="https://illustrations.popsy.co/white/work-from-home.svg" alt="Mental Health Illustration"
+                        class="hero-image w-full max-w-lg mx-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Tentang MoodCurhat</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    MoodCurhat hadir sebagai solusi inovatif untuk mendukung kesehatan mental masyarakat dengan
+                    teknologi AI yang ramah dan memahami.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
+                    data-aos="fade-up" data-aos-delay="100">
+                    <div
+                        class="bg-primary bg-opacity-10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto text-primary">
+                        <i class="fas fa-brain text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-center">AI yang Empatik</h3>
+                    <p class="text-gray-600 text-center">
+                        MoodCurhat menggunakan teknologi kecerdasan buatan yang dirancang khusus untuk memahami emosi
+                        dan memberikan respon yang empatik sesuai kebutuhan pengguna.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
+                    data-aos="fade-up" data-aos-delay="200">
+                    <div
+                        class="bg-primary bg-opacity-10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto text-primary">
+                        <i class="fas fa-lock text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-center">Privasi Terjamin</h3>
+                    <p class="text-gray-600 text-center">
+                        Semua curhatan Anda dijamin kerahasiaannya dengan enkripsi tingkat tinggi. Data pribadi Anda
+                        aman dan tidak akan dibagikan ke pihak manapun.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
+                    data-aos="fade-up" data-aos-delay="300">
+                    <div
+                        class="bg-primary bg-opacity-10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto text-primary">
+                        <i class="fas fa-heart text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-center">Dukungan 24/7</h3>
+                    <p class="text-gray-600 text-center">
+                        Kapan pun Anda butuh teman bicara, MoodCurhat selalu siap mendengarkan tanpa menghakimi,
+                        tersedia setiap hari tanpa batas waktu.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center" data-aos="fade-up">
+                <a href="#features"
+                    class="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition">
+                    Pelajari fitur lengkap kami <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-12 md:py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8 md:mb-10" data-aos="fade-up">
+                <h2 class="text-2xl md:text-4xl font-bold text-gray-900 mb-4">Fitur MoodCurhat</h2>
+                <div class="w-16 md:w-20 h-1 bg-primary mx-auto mb-4 md:mb-6"></div>
+                <h3 class="text-lg md:text-xl font-semibold mb-2 md:mb-3 text-center">Teman Curhat Digital</h3>
+                <p class="text-sm md:text-base text-gray-600 mb-4 md:mb-6 text-center">
+                    Chatbot kami siap mendengarkan keluh kesah Anda kapan saja, memberikan respon yang empatik dan
+                    tidak menghakimi.
+                </p>
+            </div>
+
+            <div class="flex justify-center">
+                <div class="p-6 md:p-8 max-w-4xl w-full mx-4" data-aos="fade-up">
+                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
+                        <div class="bg-gray-50 p-3 md:p-4 rounded-lg">
+                            <div class="flex items-center mb-1 md:mb-2">
+                                <div
+                                    class="bg-primary bg-opacity-20 p-1 h-10 w-10 rounded-full flex items-center justify-center mr-2 md:mr-3">
+                                    <i class="fas fa-bolt text-primary text-xs md:text-sm"></i>
+                                </div>
+                                <h4 class="font-medium text-sm md:text-base">Respon Cepat</h4>
+                            </div>
+                            <p class="text-gray-600 text-xs md:text-sm">Dapatkan balasan instan kapan pun Anda butuh</p>
+                        </div>
+
+                        <div class="bg-gray-50 p-3 md:p-4 rounded-lg">
+                            <div class="flex items-center mb-1 md:mb-2">
+                                <div
+                                    class="bg-primary bg-opacity-20 p-1 h-10 w-10 rounded-full flex items-center justify-center mr-2 md:mr-3">
+                                    <i class="fas fa-clock text-primary text-xs md:text-sm"></i>
+                                </div>
+                                <h4 class="font-medium text-sm md:text-base">Tersedia 24/7</h4>
+                            </div>
+                            <p class="text-gray-600 text-xs md:text-sm">Akses kapan saja, bahkan tengah malam sekalipun
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-50 p-3 md:p-4 rounded-lg">
+                            <div class="flex items-center mb-1 md:mb-2">
+                                <div
+                                    class="bg-primary bg-opacity-20 p-1 h-10 w-10 rounded-full flex items-center justify-center mr-2 md:mr-3">
+                                    <i class="fas fa-lock text-primary text-xs md:text-sm"></i>
+                                </div>
+                                <h4 class="font-medium text-sm md:text-base">Privasi Terjaga</h4>
+                            </div>
+                            <p class="text-gray-600 text-xs md:text-sm">Percakapan Anda aman dan rahasia</p>
+                        </div>
+
+                        <div class="bg-gray-50 p-3 md:p-4 rounded-lg">
+                            <div class="flex items-center mb-1 md:mb-2">
+                                <div
+                                    class="bg-primary bg-opacity-20 p-1 h-10 w-10 rounded-full flex items-center justify-center mr-2 md:mr-3">
+                                    <i class="fas fa-heart text-primary text-xs md:text-sm"></i>
+                                </div>
+                                <h4 class="font-medium text-sm md:text-base">Respon Empatik</h4>
+                            </div>
+                            <p class="text-gray-600 text-xs md:text-sm">Didesain untuk memahami perasaan Anda</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" data-aos="fade-up">
+                <div class="inline-flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="./auth/login.html"
+                        class="bg-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full text-sm md:text-lg font-semibold hover:bg-opacity-90 transition shadow-md hover:shadow-lg">
+                        Mulai Percakapan Sekarang
+                    </a>
+                    <a href="#testimonial"
+                        class="border-2 border-primary text-primary px-6 py-2 md:px-8 md:py-3 rounded-full text-sm md:text-lg font-semibold hover:bg-primary hover:bg-opacity-10 transition">
+                        <i class="fas fa-comment-dots mr-2"></i> Lihat Testimoni
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Cara Kerja MoodCurhat</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Hanya dalam 3 langkah sederhana, Anda bisa mulai merasakan manfaat dari MoodCurhat.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6" data-aos="fade-up" data-aos-delay="100">
+                    <div
+                        class="bg-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md border border-gray-100">
+                        <span class="text-primary text-2xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Buat Akun</h3>
+                    <p class="text-gray-600">
+                        Daftar dengan mudah menggunakan email atau akun media sosial Anda. Prosesnya cepat dan aman.
+                    </p>
+                </div>
+                <div class="text-center p-6" data-aos="fade-up" data-aos-delay="200">
+                    <div
+                        class="bg-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md border border-gray-100">
+                        <span class="text-primary text-2xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Mulai Curhat</h3>
+                    <p class="text-gray-600">
+                        Buka chat dan mulai bicara tentang apa saja yang mengganggu pikiran Anda. AI kami akan merespon
+                        dengan empati.
+                    </p>
+                </div>
+                <div class="text-center p-6" data-aos="fade-up" data-aos-delay="300">
+                    <div
+                        class="bg-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md border border-gray-100">
+                        <span class="text-primary text-2xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Rasakan Manfaatnya</h3>
+                    <p class="text-gray-600">
+                        Dapatkan panduan, saran, dan dukungan untuk meningkatkan kesehatan mental Anda secara bertahap.
+                    </p>
+                </div>
+            </div>
+            <div class="text-center mt-12" data-aos="fade-up">
+                <a href="./auth/login.html"
+                    class="bg-primary text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition shadow-lg hover:shadow-xl inline-flex items-center">
+                    Coba Sekarang <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonial" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Apa Kata Mereka?</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Pengalaman nyata dari pengguna MoodCurhat yang telah merasakan manfaatnya.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-xl testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center">
+                            <img class="w-12 h-12 rounded-full mr-4 object-fit-cover"
+                                src="./assets/img/ikit-agustin.jpeg" alt="User">
+                            <div>
+                                <h4 class="font-semibold">Ikit Agustin</h4>
+                                <div class="flex items-center">
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "Sebagai mahasiswa yang sering stres dengan tugas, MoodCurhat sangat membantu saya mengelola
+                        emosi. AI-nya sangat memahami dan memberikan saran yang relevan."
+                    </p>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center">
+                            <img class="w-12 h-12 rounded-full mr-4 object-fit-cover"
+                                src="./assets/img/bayu-syahril.jpeg" alt="User">
+                            <div>
+                                <h4 class="font-semibold">Bayu Syahril</h4>
+                                <div class="flex items-center">
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "Saya awalnya skeptis dengan chatbot kesehatan mental, tapi MoodCurhat benar-benar berbeda.
+                        Responsnya sangat manusiawi dan membantu saya melalui masa sulit."
+                    </p>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl testimonial-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center">
+                            <img class="w-12 h-12 rounded-full mr-4 object-fit-cover"
+                                src="./assets/img/khoriyatul-aini.jpeg" alt="User">
+                            <div>
+                                <h4 class="font-semibold">Khoriyatul Aini</h4>
+                                <div class="flex items-center">
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <i class="fas fa-star-half-alt text-yellow-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "MoodCurhat sangat membantu saya dalam merawat kesehatan mental saya. Sekarang saya lebih bisa
+                        mengantisipasi hari-hari ketika mood saya cenderung turun."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6" data-aos="fade-up">Siap Memulai Perjalanan Kesehatan Mental
+                Anda?</h2>
+            <p class="text-xl mb-8 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+                Bergabunglah dengan ribuan orang yang telah merasakan manfaat MoodCurhat untuk kehidupan yang lebih
+                seimbang dan bahagia.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-up"
+                data-aos-delay="200">
+                <a href="./auth/login.html"
+                    class="bg-white text-primary px-8 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition shadow-lg hover:shadow-xl">
+                    Daftar Sekarang - Gratis!
+                </a>
+                <a href="#features"
+                    class="border-2 border-white text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-white hover:bg-opacity-10 transition">
+                    Pelajari Lebih Lanjut
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-2">
+            <div class="flex flex-col md:flex-row justify-center items-center">
+                <p class="text-gray-500 text-sm mb-4 md:mb-0">
+                    &copy; 2025 MoodCurhat AI. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top"
+        class="fixed bottom-6 right-6 bg-primary text-white p-4 rounded-full shadow-lg opacity-0 invisible transition-all hover:bg-opacity-90">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const faqButtons = document.querySelectorAll('.bg-white button');
+        faqButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('i');
+
+                answer.classList.toggle('hidden');
+
+                icon.classList.toggle('rotate-180');
+            });
+        });
+
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function updateActiveLink() {
+            let index = sections.length;
+
+            while (--index && window.scrollY + 100 < sections[index].offsetTop) { }
+
+            navLinks.forEach((link) => link.classList.remove('active'));
+            mobileNavLinks.forEach((link) => link.classList.remove('active'));
+
+            navLinks[index]?.classList.add('active');
+            mobileNavLinks[index]?.classList.add('active');
+        }
+
+        updateActiveLink();
+        window.addEventListener('scroll', updateActiveLink);
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const offset = 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

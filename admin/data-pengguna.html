@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Pengguna - MoodCurhat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="../assets/icon.png" type="image/x-icon">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#00B37E',
+                        secondary: '#F5F5F5',
+                        accent1: '#D6FFFE',
+                        accent2: '#FFFFFF',
+                        dark: '#1E293B',
+                        light: '#F8FAFC',
+                        text: '#334155',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar fixed md:relative w-64 h-full bg-white shadow-md z-10">
+            <div class="p-4 border-b border-gray-200">
+                <h1 class="text-2xl font-bold text-primary">
+                    <span style="font-family: 'Dissolve', sans-serif;">mood</span><span
+                        style="font-family: 'Poppins', sans-serif; font-weight: 600;">curhat</span>
+                </h1>
+                <p class="text-xs text-gray-500">Admin Dashboard</p>
+            </div>
+            
+            <div class="p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="dashboard.html" class="flex items-center p-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="data-pengguna.html" class="flex items-center p-2 text-sm font-medium text-white rounded-lg bg-primary hover:bg-primary-dark transition">
+                            <i class="fas fa-users mr-3"></i>
+                            Data Pengguna
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../index.html" class="flex items-center p-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                            <i class="fas fa-home mr-3"></i>
+                            Kembali ke Beranda
+                        </a>
+                    </li>
+                    <li>
+                        <button id="logoutBtn" class="w-full flex items-center p-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                            <i class="fas fa-sign-out-alt mr-3"></i>
+                            Keluar
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm z-10">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div class="flex items-center">
+                        <button id="sidebarToggle" class="md:hidden text-gray-500 focus:outline-none">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <h2 class="ml-4 text-xl font-semibold text-gray-800">Data Pengguna</h2>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <button class="text-gray-500 focus:outline-none">
+                                <i class="fas fa-bell text-xl"></i>
+                            </button>
+                            <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <span class="ml-2 text-sm font-medium text-gray-700">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 md:mb-0">Daftar Pengguna</h3>
+                        
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                            <input type="text" id="searchInput" placeholder="Cari pengguna..."
+                                class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary block w-full md:w-64"
+                                onkeyup="filterUsers()">
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Nama
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Email
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Jenis Kelamin
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Usia
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tanggal Daftar
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Aksi
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-4 flex items-center justify-between">
+                        <div class="text-sm text-gray-500">
+                            Menampilkan <span id="showingFrom">1</span> sampai <span id="showingTo">10</span> dari <span id="totalUsers">0</span> pengguna
+                        </div>
+                        <div class="flex space-x-2">
+                            <button id="prevPage" class="px-3 py-1 border border-gray-300 rounded-lg bg-white text-gray-700 disabled:opacity-50">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button id="nextPage" class="px-3 py-1 border border-gray-300 rounded-lg bg-white text-gray-700 disabled:opacity-50">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+        import { db, ref, onValue } from "../firebase.js";
+        import { app } from "../firebase.js";
+        
+        const auth = getAuth(app);
+        
+        // Check admin status
+        auth.onAuthStateChanged((user) => {
+            if (!user || user.email !== 'lisa.admin@gmail.com') {
+                window.location.href = '../auth/login.html';
+            }
+        });
+        
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.href = '../auth/login.html';
+            }).catch((error) => {
+                console.error('Logout error:', error);
+            });
+        });
+        
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+        
+        // Load users data
+        let allUsers = [];
+        let currentPage = 1;
+        const usersPerPage = 10;
+        
+        onValue(ref(db, 'users'), (snapshot) => {
+            const usersData = snapshot.val() || {};
+            allUsers = Object.entries(usersData).map(([id, user]) => ({ id, ...user }));
+            
+            renderUsers();
+            updatePagination();
+        });
+        
+        function renderUsers(filteredUsers = null) {
+            const usersToRender = filteredUsers || allUsers;
+            const startIndex = (currentPage - 1) * usersPerPage;
+            const endIndex = startIndex + usersPerPage;
+            const paginatedUsers = usersToRender.slice(startIndex, endIndex);
+            
+            const tableBody = document.getElementById('usersTableBody');
+            tableBody.innerHTML = '';
+            
+            if (paginatedUsers.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">Tidak ada data pengguna</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            paginatedUsers.forEach(user => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10">
+                                <img class="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=00B37E&color=fff" alt="">
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${user.fullName}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${user.email}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.gender === 'female' ? 'bg-pink-100 text-pink-800' : 'bg-blue-100 text-blue-800'}">
+                            ${user.gender === 'female' ? 'Perempuan' : 'Laki-laki'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${user.age || '-'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${new Date(user.createdAt).toLocaleDateString()}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <a href="detail-pengguna.html?id=${user.id}" class="text-primary hover:text-primary-dark mr-3">Detail</a>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Update showing info
+            document.getElementById('showingFrom').textContent = startIndex + 1;
+            document.getElementById('showingTo').textContent = Math.min(endIndex, usersToRender.length);
+            document.getElementById('totalUsers').textContent = usersToRender.length;
+        }
+        
+        function updatePagination() {
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = currentPage * usersPerPage >= allUsers.length;
+        }
+        
+        // Pagination controls
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderUsers();
+                updatePagination();
+            }
+        });
+        
+        document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage * usersPerPage < allUsers.length) {
+                currentPage++;
+                renderUsers();
+                updatePagination();
+            }
+        });
+        
+        // Search/filter function
+        window.filterUsers = function() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchTerm) {
+                currentPage = 1;
+                renderUsers();
+                updatePagination();
+                return;
+            }
+            
+            const filteredUsers = allUsers.filter(user => 
+                user.fullName.toLowerCase().includes(searchTerm) || 
+                user.email.toLowerCase().includes(searchTerm) ||
+                (user.gender === 'female' ? 'perempuan' : 'laki-laki').includes(searchTerm)
+            );
+            
+            currentPage = 1;
+            renderUsers(filteredUsers);
+            updatePagination();
+        };
+    </script>
+</body>
+</html>
