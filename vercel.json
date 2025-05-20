@@ -1,0 +1,32 @@
+{
+    "routes": [
+        {
+            "src": "/auth/(.*)",
+            "dest": "/auth/$1.html",
+            "headers": {
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        },
+        {
+            "src": "/page/(.*)",
+            "dest": "/page/$1.html",
+            "headers": {
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        },
+        {
+            "src": "/admin/(.*)",
+            "dest": "/admin/$1.html",
+            "headers": {
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/$1.html",
+            "headers": {
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        }
+    ]
+}
