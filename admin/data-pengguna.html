@@ -6,7 +6,7 @@
     <title>Data Pengguna - MoodCurhat</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="shortcut icon" href="/assets/icon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../assets/icon.png" type="image/x-icon">
     <script>
         tailwind.config = {
             theme: {
@@ -67,19 +67,19 @@
             <div class="p-4">
                 <ul class="space-y-2">
                     <li>
-                        <a href="/admin/dashboard.html" class="flex items-center p-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <a href="dashboard.html" class="flex items-center p-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition">
                             <i class="fas fa-tachometer-alt mr-3"></i>
                             Dashboard
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/data-pengguna.html" class="flex items-center p-2 text-sm font-medium text-white rounded-lg bg-primary hover:bg-primary-dark transition">
+                        <a href="data-pengguna.html" class="flex items-center p-2 text-sm font-medium text-white rounded-lg bg-primary hover:bg-primary-dark transition">
                             <i class="fas fa-users mr-3"></i>
                             Data Pengguna
                         </a>
                     </li>
                     <li>
-                        <a href="/" class="flex items-center p-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition">
+                        <a href="../index.html" class="flex items-center p-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition">
                             <i class="fas fa-home mr-3"></i>
                             Kembali ke Beranda
                         </a>
@@ -186,22 +186,22 @@
 
     <script type="module">
         import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        import { db, ref, onValue } from "/firebase.js";
-        import { app } from "/firebase.js";
+        import { db, ref, onValue } from "../firebase.js";
+        import { app } from "../firebase.js";
         
         const auth = getAuth(app);
         
         // Check admin status
         auth.onAuthStateChanged((user) => {
             if (!user || user.email !== 'lisa.admin@gmail.com') {
-                window.location.href = '/auth/login.html';
+                window.location.href = '../auth/login.html';
             }
         });
         
         // Logout
         document.getElementById('logoutBtn').addEventListener('click', () => {
             signOut(auth).then(() => {
-                window.location.href = '/auth/login.html';
+                window.location.href = '../auth/login.html';
             }).catch((error) => {
                 console.error('Logout error:', error);
             });
@@ -272,7 +272,7 @@
                         ${new Date(user.createdAt).toLocaleDateString()}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <a href="/admin/detail-pengguna.html?id=${user.id}" class="text-primary hover:text-primary-dark mr-3">Detail</a>
+                        <a href="detail-pengguna.html?id=${user.id}" class="text-primary hover:text-primary-dark mr-3">Detail</a>
                     </td>
                 `;
                 tableBody.appendChild(row);
