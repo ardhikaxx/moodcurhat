@@ -28,5 +28,21 @@
                 "Content-Type": "text/html; charset=utf-8"
             }
         }
+    ],
+    "cleanUrls": false,
+    "trailingSlash": false,
+    "rewrites": [
+        {
+            "source": "/auth/(.*)",
+            "destination": "/auth/$1.html"
+        },
+        {
+            "source": "/page/(.*)",
+            "destination": "/page/$1.html"
+        },
+        {
+            "source": "/admin/(.*)",
+            "destination": "/admin/$1.html"
+        }
     ]
 }
