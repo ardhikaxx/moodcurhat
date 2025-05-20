@@ -28,5 +28,6 @@
             "source": "/admin/detail-pengguna",
             "destination": "/admin/detail-pengguna.html"
         }
-    ]
+    ],
+    "trailingSlash": false
 }
