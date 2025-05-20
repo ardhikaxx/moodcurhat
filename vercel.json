@@ -1,37 +1,8 @@
 {
-    "routes": [
+    "rewrites": [
         {
-            "src": "/",
-            "dest": "/index.html"
-        },
-        {
-            "src": "/chat",
-            "dest": "/chat.html"
-        },
-        {
-            "src": "/auth/login",
-            "dest": "/auth/login.html"
-        },
-        {
-            "src": "/auth/register",
-            "dest": "/auth/register.html"
-        },
-        {
-            "src": "/admin/dashboard",
-            "dest": "/admin/dashboard.html"
-        },
-        {
-            "src": "/admin/data-pengguna",
-            "dest": "/admin/data-pengguna.html"
-        },
-        {
-            "src": "/admin/detail-pengguna",
-            "dest": "/admin/detail-pengguna.html"
-        },
-        {
-            "src": "/(.*)",
-            "status": 404,
-            "dest": "/404.html"
+            "source": "/(.*)",
+            "destination": "/"
         }
     ]
 }
