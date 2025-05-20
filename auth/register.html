@@ -7,7 +7,7 @@
     <title>Daftar - MoodCurhat</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="shortcut icon" href="../assets/icon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/icon.png" type="image/x-icon">
     <!-- SweetAlert CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -92,15 +92,15 @@
         .swal2-popup {
             font-family: 'Poppins', sans-serif;
         }
-        
+
         .swal2-title {
             font-weight: 600;
         }
-        
+
         .swal2-confirm {
             background-color: #00B37E !important;
         }
-        
+
         .swal2-confirm:focus {
             box-shadow: 0 0 0 3px rgba(0, 179, 126, 0.5) !important;
         }
@@ -188,7 +188,8 @@
                     <div class="flex items-center">
                         <input id="terms" name="terms" type="checkbox" required
                             class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
-                        <label for="terms" class="ml-2 block text-sm text-gray-700"> Saya setuju dengan <a href="#" class="text-primary hover:text-primary-dark">Syarat & Ketentuan</a>
+                        <label for="terms" class="ml-2 block text-sm text-gray-700"> Saya setuju dengan <a href="#"
+                                class="text-primary hover:text-primary-dark">Syarat & Ketentuan</a>
                         </label>
                     </div>
 
@@ -203,12 +204,12 @@
 
             <div class="mt-6 text-center text-sm">
                 <p class="text-gray-600">Sudah punya akun?
-                    <a href="login.html" class="font-medium text-primary hover:text-primary-dark">Masuk disini</a>
+                    <a href="/auth/login" class="font-medium text-primary hover:text-primary-dark">Masuk disini</a>
                 </p>
             </div>
 
             <div class="mt-8 text-center">
-                <a href="../index.html" class="text-gray-500 hover:text-gray-700 text-sm">
+                <a href="/" class="text-gray-500 hover:text-gray-700 text-sm">
                     <i class="fas fa-arrow-left mr-1"></i> Kembali ke beranda
                 </a>
             </div>
@@ -217,7 +218,7 @@
 
     <script type="module">
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        import { db, ref, set, app } from "../firebase.js";
+        import { db, ref, set, app } from "/firebase.js";
 
         const auth = getAuth(app);
         const registerForm = document.getElementById('registerForm');
@@ -319,13 +320,13 @@
                     showConfirmButton: false
                 });
 
-                window.location.href = '../page/chat.html';
+                window.location.href = '/page/chat';
             } catch (error) {
                 Swal.close();
-                
+
                 let errorMessage = 'Terjadi kesalahan saat mendaftar';
-                
-                switch(error.code) {
+
+                switch (error.code) {
                     case 'auth/email-already-in-use':
                         errorMessage = 'Email sudah terdaftar';
                         break;
