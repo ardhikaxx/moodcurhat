@@ -1,0 +1,43 @@
+{
+    "routes": [
+        {
+            "src": "^/page/(.*)\\.html$",
+            "dest": "/page/$1.html"
+        },
+        {
+            "src": "^/auth/(.*)\\.html$",
+            "dest": "/auth/$1.html"
+        },
+        {
+            "src": "^/admin/(.*)\\.html$",
+            "dest": "/admin/$1.html"
+        },
+        {
+            "src": "^\\.well-known/(.*)",
+            "dest": "/.well-known/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/index.html",
+            "headers": {
+                "Cache-Control": "no-cache"
+            }
+        }
+    ],
+    "cleanUrls": false,
+    "trailingSlash": false,
+    "rewrites": [
+        {
+            "source": "/page/(.*)",
+            "destination": "/page/$1.html"
+        },
+        {
+            "source": "/auth/(.*)",
+            "destination": "/auth/$1.html"
+        },
+        {
+            "source": "/admin/(.*)",
+            "destination": "/admin/$1.html"
+        }
+    ]
+}
