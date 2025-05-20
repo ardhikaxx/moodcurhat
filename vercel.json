@@ -1,0 +1,32 @@
+{
+    "routes": [
+        {
+            "src": "/auth/login",
+            "dest": "/auth/login.html"
+        },
+        {
+            "src": "/auth/register",
+            "dest": "/auth/register.html"
+        },
+        {
+            "src": "/page/chat",
+            "dest": "/page/chat.html"
+        },
+        {
+            "src": "/admin/dashboard",
+            "dest": "/admin/dashboard.html"
+        },
+        {
+            "src": "/admin/data-pengguna",
+            "dest": "/admin/data-pengguna.html"
+        },
+        {
+            "src": "/admin/detail-pengguna",
+            "dest": "/admin/detail-pengguna.html"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/index.html"
+        }
+    ]
+}
