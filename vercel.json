@@ -1,48 +1,34 @@
 {
-    "routes": [
-        {
-            "src": "/auth/(.*)",
-            "dest": "/auth/$1.html",
-            "headers": {
-                "Content-Type": "text/html; charset=utf-8"
-            }
-        },
-        {
-            "src": "/page/(.*)",
-            "dest": "/page/$1.html",
-            "headers": {
-                "Content-Type": "text/html; charset=utf-8"
-            }
-        },
-        {
-            "src": "/admin/(.*)",
-            "dest": "/admin/$1.html",
-            "headers": {
-                "Content-Type": "text/html; charset=utf-8"
-            }
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/$1.html",
-            "headers": {
-                "Content-Type": "text/html; charset=utf-8"
-            }
-        }
-    ],
+    "version": 2,
     "cleanUrls": false,
     "trailingSlash": false,
     "rewrites": [
         {
-            "source": "/auth/(.*)",
-            "destination": "/auth/$1.html"
+            "source": "/auth/login",
+            "destination": "/auth/login.html"
         },
         {
-            "source": "/page/(.*)",
-            "destination": "/page/$1.html"
+            "source": "/auth/register",
+            "destination": "/auth/register.html"
+        },
+        {
+            "source": "/page/chat",
+            "destination": "/page/chat.html"
         },
         {
             "source": "/admin/(.*)",
             "destination": "/admin/$1.html"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*).html",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "text/html; charset=utf-8"
+                }
+            ]
         }
     ]
 }
