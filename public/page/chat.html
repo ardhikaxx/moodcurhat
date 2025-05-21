@@ -118,7 +118,7 @@
       </div>
 
       <div class="bg-white rounded-md p-3 card">
-        <form class="flex items-center gap-3" onsubmit="return handleSubmit(event)">
+        <form class="flex items-center gap-3" onsubmit="handleSubmit(event); return false">
           <div class="flex-1 flex items-center">
             <textarea id="prompt" name="prompt" placeholder="Curhatkan dirimu sesuatu...✦"
               class="w-full h-[40px] p-2 bg-[#F0FDF4] text-[#1E293B] rounded-lg border-0 focus:ring-0 focus:outline-none"
@@ -149,7 +149,9 @@
     </div>
   </section>
 
-  <script type="module" src="../../src/main.js"></script>
+  <script type="module">
+    //ini bagian import generative ai nya yang terhubung dengan main.js
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     const textarea = document.querySelector('textarea[name="prompt"]');
