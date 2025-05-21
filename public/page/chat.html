@@ -149,15 +149,24 @@
     </div>
   </section>
 
-  <script type="module">
-    //ini bagian import generative ai nya yang terhubung dengan main.js
-  </script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    const textarea = document.querySelector('textarea[name="prompt"]');
-    textarea.addEventListener('input', function () {
-      this.style.height = 'auto';
-      this.style.height = this.scrollHeight + 'px';
+  <script type="module">
+    import { initializeChat, handleSubmit, stopGenerating } from '/main.js';
+    
+    // Make functions available to HTML
+    window.handleSubmit = handleSubmit;
+    window.stopGenerating = stopGenerating;
+    
+    // Initialize chat when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeChat();
+      
+      // Textarea auto-resize
+      const textarea = document.querySelector('textarea[name="prompt"]');
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+      });
     });
   </script>
 </body>
