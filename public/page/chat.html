@@ -7,7 +7,7 @@
   <title>MoodCurhat - AI Mental Health Chat</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="../../src/style.css">
+  <link rel="stylesheet" href="/style.css">
   <link href="https://fonts.cdnfonts.com/css/dissolve" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
   <script>
@@ -118,7 +118,7 @@
       </div>
 
       <div class="bg-white rounded-md p-3 card">
-        <form class="flex items-center gap-3" onsubmit="handleSubmit(event); return false">
+        <form class="flex items-center gap-3" onsubmit="return handleSubmit(event)">
           <div class="flex-1 flex items-center">
             <textarea id="prompt" name="prompt" placeholder="Curhatkan dirimu sesuatu...✦"
               class="w-full h-[40px] p-2 bg-[#F0FDF4] text-[#1E293B] rounded-lg border-0 focus:ring-0 focus:outline-none"
@@ -149,24 +149,13 @@
     </div>
   </section>
 
+  <script type="module" src="/main.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script type="module">
-    import { initializeChat, handleSubmit, stopGenerating } from '/main.js';
-    
-    // Make functions available to HTML
-    window.handleSubmit = handleSubmit;
-    window.stopGenerating = stopGenerating;
-    
-    // Initialize chat when DOM is loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      initializeChat();
-      
-      // Textarea auto-resize
-      const textarea = document.querySelector('textarea[name="prompt"]');
-      textarea.addEventListener('input', function() {
-        this.style.height = 'auto';
-        this.style.height = this.scrollHeight + 'px';
-      });
+  <script>
+    const textarea = document.querySelector('textarea[name="prompt"]');
+    textarea.addEventListener('input', function () {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
     });
   </script>
 </body>
