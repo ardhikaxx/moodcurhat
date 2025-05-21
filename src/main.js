@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import MarkdownIt from 'markdown-it';
-import '/style.css';
+import './style.css';
 
 let API_KEY = 'AIzaSyAe748hL1Sojv76iHib5sQju2jygXHGhOQ';
 
